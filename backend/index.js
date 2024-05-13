@@ -1,43 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
-const Book  = require('./models/bookModel.js')
-
-
-
-
-
 const app = express();
+const cors = require('cors');
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+const bookrouter = require('./routes/book.routes.js')
 
 
 
-//Creating Routes
+app.use('/api/book', bookrouter)
 
-app.post('/api/book', async (req, res)=>{
+app.use(cors());
 
-  try {
 
-      if (!req.body.title || !req.body.author || !req.body.publishedYear){
 
-          return res.status(400).json({
-            message: "Please fill in the title, author and published year"
-          })
-      
-      }
-
-        const book = await Book.create(req.body) 
-        res.status(200).json(book)
-
-    
-    
-  } catch (error) {
-
-    res.status(500).json({message: error.message})
-    console.log(error)
-    
-  }
-
-})
 
 
 
