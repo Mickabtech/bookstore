@@ -17,7 +17,7 @@ app.use(cors());
 
 
 
-const MONGODB_URI = 'your-mongodb-connection-string';
+const MONGODB_URI = 'mongodb+srv://mickabtech:Hesterio1@cluster0.f1jbufm.mongodb.net/';
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
