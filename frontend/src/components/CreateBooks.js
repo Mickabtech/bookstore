@@ -47,7 +47,10 @@ const CreateBooks = () => {
 
       setLoading(false)
       toast.success("Book Added Successfully!!!")
-      navigate('/')
+      setTimeout(() => {
+        navigate('/')
+      }, 2000);
+      
     }).catch((error)=>{
       console.log(error)
       toast.error("Error:", error)
