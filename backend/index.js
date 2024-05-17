@@ -7,13 +7,8 @@ app.use(express.urlencoded({extended: false}));
 const bookrouter = require('./routes/book.routes.js')
 
 
-
-app.use('/api/book', bookrouter)
-
 app.use(cors());
-
-
-
+app.use('/api/book', bookrouter)
 
 
 
@@ -30,7 +25,7 @@ mongoose.connect(MONGODB_URI, {
   });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
