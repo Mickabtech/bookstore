@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import BackButton from './elements/BackButton'
 import { useParams } from 'react-router-dom'
@@ -14,26 +14,32 @@ const EditBooks = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [publishedYear, setPublishedYear] = useState('');
+  const [editedbook, setEditedBook] = useState([])
   const [loading, setLoading] = useState(false);
   const {_id} = useParams();
 
   const navigate = useNavigate()
 
+
+  useEffect(()=>{
+    setLoading(true)
+    axios.get(`http://localhost:3005/api/book/${_id}`)
+    .then((response)=>{
+      // setTitle(response.data.title)
+      // setAuthor(response.data.author)
+      // setPublishedYear(response.data.publishedYear)
+
+      setEditedBook(response.data)
+      setLoading(false)
+    }).catch((error)=>{
+      setLoading(false)
+        toast.error("Error: ", error)
+    })
+  })
  
 
-  const handleSaveBook = () =>{
-    if(!title){
-      toast.error("Fill up title info")
-      return 
-    }
-    if(!author){
-      toast.error("Fill up Author's Info")
-      return 
-    }
-    if(!publishedYear){
-      toast.error("Fill up Published Year")
-      return 
-    }
+  const handleEditBook = () =>{
+   
 
     const data = {
 
@@ -44,14 +50,15 @@ const EditBooks = () => {
 
     setLoading(true)
 
+    
     axios.put(`http://localhost:3005/api/book/${_id}`, data)
     .then(()=>{
 
       setLoading(false)
-      toast.success("Book Added Successfully!!!")
+      toast.success("Book Edited Successfully!!!")
       setTimeout(() => {
         navigate('/')
-      }, 2000);
+      }, 1000);
       
     }).catch((error)=>{
       console.log(error)
@@ -71,6 +78,7 @@ const EditBooks = () => {
             <div className='my-4'>
                 <label className='text-xl mr-4 text-gray-500'>Title</label>
                 <input type='text' 
+                placeholder={editedbook.title}
                 value={title} 
                 onChange={(e)=>setTitle(e.target.value)}
                 className='border-2 border-gray-500 px-4 py-2 w-full'/>
@@ -79,6 +87,7 @@ const EditBooks = () => {
             <div className='my-4'>
                 <label className='text-xl mr-4 text-gray-500'>Author</label>
                 <input type='text' 
+                placeholder={editedbook.author}
                 value={author} 
                 onChange={(e)=>setAuthor(e.target.value)}
                 className='border-2 border-gray-500 px-4 py-2 w-full'/>
@@ -87,12 +96,13 @@ const EditBooks = () => {
             <div className='my-4'>
                 <label className='text-xl mr-4 text-gray-500'>Published Year</label>
                 <input type='text' 
+                placeholder={editedbook.publishedYear}
                 value={publishedYear} 
                 onChange={(e)=>setPublishedYear(e.target.value)}
                 className='border-2 border-gray-500 px-4 py-2 w-full'/>
             </div>
 
-            <button className='p-2 bg-sky-300 m-8' onClick={handleSaveBook}>
+            <button className='p-2 bg-sky-300 m-8' onClick={handleEditBook}>
               Save
             </button>
 
