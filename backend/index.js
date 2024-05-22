@@ -5,11 +5,14 @@ const cors = require('cors');
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 const bookrouter = require('./routes/book.routes.js')
+const userRouter = require('./routes/user.routes.js')
+const userLogin = require('./routes/login.routes.js')
 
 
 app.use(cors());
 app.use('/api/book', bookrouter)
-
+app.use('/api/book/register', userRouter)
+app.use('/api/book/login', userLogin)
 
 
 const MONGODB_URI = 'mongodb+srv://mickabtech:Hesterio1@cluster0.f1jbufm.mongodb.net/';
